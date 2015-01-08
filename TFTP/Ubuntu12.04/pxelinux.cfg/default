@@ -1,0 +1,4 @@
+# D-I config version 2.0
+include boot-screens/preseed.cfg
+prompt 0
+timeout 0
