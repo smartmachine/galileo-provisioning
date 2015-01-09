@@ -1,1 +1,0 @@
-netcfg/get_hostname=galileo console=hvc0 debian-installer/locale=en_US netcfg/dhcp_hostname=galileo console-setup/layoutcode=se console-setup/ask-detect=false interface=eth0 netcfg/disable_dhcp=false preseed/url=http://10.100.14.46/~knut/preseed.txt
