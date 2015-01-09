@@ -275,11 +275,11 @@ d-i base-installer/kernel/image string linux-virtual
 #d-i passwd/root-password-crypted password [MD5 hash]
 
 # To create a normal user account.
-d-i passwd/user-fullname string "Conrad Christensen"
-d-i passwd/username string knut
+d-i passwd/user-fullname string "Galileo Builder"
+d-i passwd/username string galileo
 # Normal user's password, either in clear text
-d-i passwd/user-password password notmyrealpassword
-d-i passwd/user-password-again password notmyrealpassword
+d-i passwd/user-password password galileo
+d-i passwd/user-password-again password galileo
 # or encrypted using an MD5 hash.
 #d-i passwd/user-password-crypted password [MD5 hash]
 # Create the first user with the specified UID instead of the default.
