@@ -39,8 +39,24 @@ function web_server_check ()
 
 function parse_templates ()
 {
-    sed -e s/@BASE_BOX_NAME@/$BASE_BOX_NAME/g -e s#@PRESEED_URL@#$PRESEED_URL#g $DIR/templates/preseed.cfg.templ > $DIR/TFTP/Ubuntu12.04/boot-screens/preseed.cfg
-    sed -e s/@BASE_BOX_NAME@/$BASE_BOX_NAME/g -e s/@BASE_BOX_USER@/$BASE_BOX_USER/g -e s/@BASE_BOX_PASSWORD@/$BASE_BOX_PASSWORD/g $DIR/templates/preseed.txt.templ > $DIR/preseed/preseed.txt
+    sed -e s/@BASE_BOX_NAME@/$BASE_BOX_HOST/g -e s/@BASE_BOX_DOMAIN/$BASE_BOX_DOMAIN/g -e s#@PRESEED_URL@#$PRESEED_URL#g $DIR/templates/preseed.cfg.templ > $DIR/TFTP/Ubuntu12.04/boot-screens/preseed.cfg
+    sed -e s/@BASE_BOX_NAME@/$BASE_BOX_HOST/g -e s/@BASE_BOX_DOMAIN/$BASE_BOX_DOMAIN/g -e s/@BASE_BOX_USER@/$BASE_BOX_USER/g -e s/@BASE_BOX_PASSWORD@/$BASE_BOX_PASSWORD/g $DIR/templates/preseed.txt.templ > $DIR/preseed/preseed.txt
+}
+
+function apply_configuration ()
+{
+    ln -sf $DIR/preseed/preseed.txt $PRESEED_PATH
+    ln -sf $DIR/TFTP $HOME/.config/VirtualBox/TFTP
+}
+
+function create_vm ()
+{
+    echo Creating Virtual Machine
+}
+
+function provision_vm ()
+{
+    echo Provisioning Virtual Machine
 }
 
 sanity_check
@@ -48,6 +64,8 @@ source $DIR/config.sh
 web_server_check
 
 parse_templates
-
+apply_configuration
+create_vm
+provision_vm
 
 # VBoxManage modifyvm "Ubuntu Galileo" --nattftpfile1 "Ubuntu12.04/pxelinux.0"
