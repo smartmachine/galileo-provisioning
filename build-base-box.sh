@@ -43,7 +43,7 @@ function web_server_check ()
     cp $DIR/web_test_in.txt $PRESEED_PATH
     wget ${PRESEED_URL}web_test_in.txt 2>/dev/null -O - > $DIR/web_test_out.txt
     diff -q $DIR/web_test_in.txt $DIR/web_test_out.txt 2>&1 >/dev/null || WEB_FAIL=1
-    rm -rf $DIR/web_test* $PRESEED_PATH/web_test_out.txt
+    rm -rf $DIR/web_test* $PRESEED_PATH/web_test_in.txt
     if [ $WEB_FAIL ] ; then
         echo $WEB_FAIL
         echo >&2 "Web server not configured properly, please check your config.sh and web server configuration."
@@ -60,7 +60,7 @@ function parse_templates ()
 function apply_configuration ()
 {
     ln -sf $DIR/preseed/preseed.txt $PRESEED_PATH
-    ln -sf $DIR/TFTP $VBOX_HOME/TFTP
+    ln -sf $DIR/TFTP $VBOX_HOME
 }
 
 function create_vm ()
@@ -83,6 +83,13 @@ function create_vm ()
 function provision_vm ()
 {
     echo Provisioning Virtual Machine
+    VBoxManage startvm "$BASE_BOX_NAME"
+    echo "Waiting for provisioning to complete ..."
+    while [[ $(VBoxManage showvminfo "$BASE_BOX_NAME" --machinereadable | grep VMState=) == *"running"* ]] ; do
+        sleep 15
+        echo -n .
+    done
+    echo -e "\n ... done."
 }
 
 sanity_check
