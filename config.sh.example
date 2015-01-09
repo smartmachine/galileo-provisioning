@@ -5,12 +5,12 @@
 ##############################################
 
 # The URL where the preseed file will be picked up.  Exclude preseed.txt, include trailing slash.
-PRESEED_URL=http://10.100.14.46/~knut/
+PRESEED_URL=http://x.x.x.x/~user/
 
 # The path that corresponds to the URL above.  Exclude preseed.txt, include trailing slash.
-PRESEED_PATH=$HOME/public_html/
+PRESEED_PATH=$HOME/some-path/
 
-BASE_BOX_NAME=galileo
+BASE_BOX_NAME="Ubuntu Galileo"
 BASE_BOX_HOST=galileo
 BASE_BOX_DOMAIN=light-source.net
 BASE_BOX_USER=galileo
