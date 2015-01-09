@@ -1,0 +1,11 @@
+##############################################
+#  Galileo Provisioning Configuration File   #
+#                                            #
+#  Copy this file to config.sh and customize #
+##############################################
+
+PRESEED_URL=http://x.x.x.x/~someuser/preseed.txt
+PRESEED_PATH=$HOME/public_html
+BASE_BOX_NAME=galileo
+BASE_BOX_USER=galileo
+BASE_BOX_PASSWORD=galileo

@@ -3,4 +3,4 @@ label install
 	menu label ^Install
 	menu default
 	kernel linux
-	append vga=788 locale=en_US.UTF-8 hostname=galileo keyboard-configuration/layoutcode=se console-setup/layoutcode=se console-setup/ask-detect=false interface=eth0 netcfg/disable_dhcp=false url=http://192.168.0.23/~conchr/preseed.txt initrd=initrd.gz -- quiet
+	append vga=788 locale=en_US.UTF-8 hostname=@BASE_BOX_NAME@ keyboard-configuration/layoutcode=se console-setup/layoutcode=se console-setup/ask-detect=false interface=eth0 netcfg/disable_dhcp=false url=@PRESEED_URL@preseed.txt initrd=initrd.gz -- quiet

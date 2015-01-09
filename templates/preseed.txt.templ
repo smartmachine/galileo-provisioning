@@ -56,8 +56,8 @@ d-i netcfg/choose_interface select auto
 # Any hostname and domain names assigned from dhcp take precedence over
 # values set here. However, setting the values still prevents the questions
 # from being shown, even if values come from dhcp.
-d-i netcfg/get_hostname string unassigned-hostname
-d-i netcfg/get_domain string unassigned-domain
+d-i netcfg/get_hostname string @BASE_BOX_NAME@
+d-i netcfg/get_domain string local
 
 # Disable that annoying WEP key dialog.
 d-i netcfg/wireless_wep string
@@ -276,10 +276,10 @@ d-i base-installer/kernel/image string linux-virtual
 
 # To create a normal user account.
 d-i passwd/user-fullname string "Galileo Builder"
-d-i passwd/username string galileo
+d-i passwd/username string @BASE_BOX_USER@
 # Normal user's password, either in clear text
-d-i passwd/user-password password galileo
-d-i passwd/user-password-again password galileo
+d-i passwd/user-password password @BASE_BOX_PASSWORD@
+d-i passwd/user-password-again password @BASE_BOX_PASSWORD@
 # or encrypted using an MD5 hash.
 #d-i passwd/user-password-crypted password [MD5 hash]
 # Create the first user with the specified UID instead of the default.
