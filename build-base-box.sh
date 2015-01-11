@@ -54,13 +54,30 @@ function web_server_check ()
 function parse_templates ()
 {
     sed -e s/@BASE_BOX_HOST@/$BASE_BOX_HOST/g -e s/@BASE_BOX_DOMAIN@/$BASE_BOX_DOMAIN/g -e s#@PRESEED_URL@#$PRESEED_URL#g $DIR/templates/preseed.cfg.templ > $DIR/TFTP/Ubuntu12.04/boot-screens/preseed.cfg
-    sed -e s/@BASE_BOX_HOST@/$BASE_BOX_HOST/g -e s/@BASE_BOX_DOMAIN@/$BASE_BOX_DOMAIN/g -e s/@BASE_BOX_USER@/$BASE_BOX_USER/g -e s/@BASE_BOX_PASSWORD@/$BASE_BOX_PASSWORD/g $DIR/templates/preseed.txt.templ > $DIR/preseed/preseed.txt
+    sed -e s/@BASE_BOX_SSH_KEY@/"$BASE_BOX_SSH_KEY"/g -e s/@BASE_BOX_HOST@/$BASE_BOX_HOST/g -e s/@BASE_BOX_DOMAIN@/$BASE_BOX_DOMAIN/g -e s/@BASE_BOX_USER@/$BASE_BOX_USER/g -e s/@BASE_BOX_PASSWORD@/$BASE_BOX_PASSWORD/g $DIR/templates/preseed.txt.templ > $DIR/preseed/preseed.txt
 }
 
 function apply_configuration ()
 {
     ln -sf $DIR/preseed/preseed.txt $PRESEED_PATH
     ln -sf $DIR/TFTP $VBOX_HOME
+}
+
+function check_vm ()
+{
+    echo "Checking if VM exists ..."
+    VDI_PATH=$(VBoxManage showvminfo "$BASE_BOX_NAME" --details --machinereadable 2>/dev/null | grep vdi | sed -e 's/^.*=\"\(.*\)\"/\1/g')
+    if [[ $VDI_PATH ]] ; then
+        echo "$BASE_BOX_NAME already exists, it will get deleted."
+        read -p "Are you sure? " -n 1 -r
+        echo    # (optional) move to a new line
+        if [[ $REPLY =~ ^[Yy]$ ]] ; then
+            VBoxManage unregistervm "$BASE_BOX_NAME" --delete
+        else
+            echo "Not deleting VM, exiting."
+            exit 1
+        fi
+    fi
 }
 
 function create_vm ()
@@ -92,12 +109,24 @@ function provision_vm ()
     echo -e "\n ... done."
 }
 
+function package_vm ()
+{
+    echo "Packaging galileo image builder base box"
+    mkdir -p $DIR/dist
+    vagrant package --base "$BASE_BOX_NAME" --output $DIR/dist/galileo.box
+    VBoxManage unregistervm "$BASE_BOX_NAME" --delete
+    ln -sf $DIR/dist/galileo.box $PRESEED_PATH
+}
+
 sanity_check
 source $DIR/config.sh
 web_server_check
 
 parse_templates
 apply_configuration
+check_vm
 create_vm
 provision_vm
+package_vm
 
+echo "All done!"
