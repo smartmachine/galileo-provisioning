@@ -113,6 +113,7 @@ function package_vm ()
 {
     echo "Packaging galileo image builder base box"
     mkdir -p $DIR/dist
+    rm -rf $DIR/dist/galileo.box
     vagrant package --base "$BASE_BOX_NAME" --output $DIR/dist/galileo.box
     VBoxManage unregistervm "$BASE_BOX_NAME" --delete
     ln -sf $DIR/dist/galileo.box $PRESEED_PATH
