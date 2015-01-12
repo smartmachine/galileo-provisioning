@@ -1,0 +1,16 @@
+#!/bin/sh
+exec >>/var/log/post-install.log
+set -x
+sed -i 's/^%sudo.*$/%sudo ALL=(ALL:ALL) NOPASSWD: ALL/g' /etc/sudoers
+echo 'Defaults env_keep += "SSH_AUTH_SOCK"' >> /etc/sudoers
+sed '/^deb-src/d' -i /etc/apt/sources.list
+sed '/^#/d' -i /etc/apt/sources.list
+sed '/^$/d' -i /etc/apt/sources.list
+mkdir -p /home/@BASE_BOX_USER@/.ssh
+echo "@BASE_BOX_SSH_KEY@" > /home/@BASE_BOX_USER@/.ssh/authorized_keys
+chown -R @BASE_BOX_USER@:@BASE_BOX_USER@ /home/@BASE_BOX_USER@
+chmod -R go-rwx /home/@BASE_BOX_USER@/.ssh/authorized_keys
+sed -i 's/PermitRootLogin yes/PermitRootLogin no/g' /etc/ssh/sshd_config
+sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config
+rm /etc/udev/rules.d/70-persistent-net.rules
+aptitude clean

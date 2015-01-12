@@ -54,13 +54,16 @@ function web_server_check ()
 function parse_templates ()
 {
     sed -e s/@BASE_BOX_HOST@/$BASE_BOX_HOST/g -e s/@BASE_BOX_DOMAIN@/$BASE_BOX_DOMAIN/g -e s#@PRESEED_URL@#$PRESEED_URL#g $DIR/templates/preseed.cfg.templ > $DIR/TFTP/Ubuntu12.04/boot-screens/preseed.cfg
-    sed -e s/@BASE_BOX_SSH_KEY@/"$BASE_BOX_SSH_KEY"/g -e s/@BASE_BOX_HOST@/$BASE_BOX_HOST/g -e s/@BASE_BOX_DOMAIN@/$BASE_BOX_DOMAIN/g -e s/@BASE_BOX_USER@/$BASE_BOX_USER/g -e s/@BASE_BOX_PASSWORD@/$BASE_BOX_PASSWORD/g $DIR/templates/preseed.txt.templ > $DIR/preseed/preseed.txt
+    sed -e s#@PRESEED_URL@#$PRESEED_URL#g -e s/@BASE_BOX_HOST@/$BASE_BOX_HOST/g -e s/@BASE_BOX_DOMAIN@/$BASE_BOX_DOMAIN/g -e s/@BASE_BOX_USER@/$BASE_BOX_USER/g -e s/@BASE_BOX_PASSWORD@/$BASE_BOX_PASSWORD/g $DIR/templates/preseed.txt.templ > $DIR/preseed/preseed.txt
+    sed -e s/@BASE_BOX_SSH_KEY@/"$BASE_BOX_SSH_KEY"/g -e s/@BASE_BOX_USER@/$BASE_BOX_USER/g $DIR/templates/post_provision.sh.templ > $DIR/templates/post_provision.sh
+
 }
 
 function apply_configuration ()
 {
     ln -sf $DIR/preseed/preseed.txt $PRESEED_PATH
     ln -sf $DIR/TFTP $VBOX_HOME
+    ln -sf $DIR/templates/post_provision.sh $PRESEED_PATH
 }
 
 function check_vm ()

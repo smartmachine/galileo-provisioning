@@ -1,4 +1,6 @@
 preseed.cfg
 preseed.txt
 config.sh
+post_provision.sh
 dist
+.vagrant

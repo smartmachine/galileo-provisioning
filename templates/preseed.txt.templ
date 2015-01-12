@@ -468,19 +468,5 @@ xserver-xorg xserver-xorg/config/monitor/mode-list \
 # directly, or use the apt-install and in-target commands to easily install
 # packages and run commands in the target system.
 d-i preseed/late_command string \
-    in-target sed -i 's/^%sudo.*$/%sudo ALL=(ALL:ALL) NOPASSWD: ALL/g' /etc/sudoers; \
-    in-target /bin/sh -c "echo 'Defaults env_keep += \"SSH_AUTH_SOCK\"' >> /etc/sudoers"; \
-    in-target sed '/^deb-src/d' -i /etc/apt/sources.list ; \
-    in-target sed '/^#/d' -i /etc/apt/sources.list ; \
-    in-target sed '/^$/d' -i /etc/apt/sources.list ; \
-    in-target mkdir -p /home/vagrant/.ssh ; \
-    in-target echo "@BASE_BOX_SSH_KEY@" > /home/vagrant/.ssh/authorized_keys ; \
-    in-target chown -R vagrant:vagrant /home/vagrant/; \
-    in-target chmod -R go-rwx /home/vagrant/authorized_keys; \
-    in-target sed -i 's/PermitRootLogin yes/PermitRootLogin no/g' /etc/ssh/sshd_config; \
-    in-target sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config; \
-    in-target rm /etc/udev/rules.d/70-persistent-net.rules; \
-    in-target aptitude clean; \
-    in-target dd if=/dev/zero of=/EMPTY bs=1M; \
-    in-target rm -f /EMPTY;
-
+    wget -O /target/var/tmp/post_provision.sh @PRESEED_URL@post_provision.sh ; \
+    in-target /bin/sh /var/tmp/post_provision.sh
