@@ -1,7 +1,7 @@
 preseed.cfg
 preseed.txt
 config.sh
-post_provision.sh
+post_preseed.sh
 dist
 .vagrant
 webserver.log

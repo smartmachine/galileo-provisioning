@@ -67,7 +67,7 @@ function parse_templates ()
 function apply_configuration ()
 {
     ln -sf $DIR/preseed/preseed.txt $DIR/public_html
-    ln -sf $DIR/TFTP $DIR/public_html
+    ln -sf $DIR/TFTP $VBOX_HOME
     ln -sf $DIR/preseed/post_preseed.sh $DIR/public_html
 }
 
@@ -124,7 +124,6 @@ function package_vm ()
     rm -rf $DIR/dist/galileo.box
     vagrant package --base "$BASE_BOX_NAME" --output $DIR/dist/galileo.box
     VBoxManage unregistervm "$BASE_BOX_NAME" --delete
-    ln -sf $DIR/dist/galileo.box $DIR/public_html
 }
 
 function finish ()
