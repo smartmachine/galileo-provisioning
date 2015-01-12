@@ -4,3 +4,4 @@ config.sh
 post_provision.sh
 dist
 .vagrant
+webserver.log

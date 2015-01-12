@@ -1,5 +1,5 @@
 #!/bin/sh
-exec >>/var/log/post-install.log
+exec >>/var/log/post-preseed.log
 set -x
 sed -i 's/^%sudo.*$/%sudo ALL=(ALL:ALL) NOPASSWD: ALL/g' /etc/sudoers
 echo 'Defaults env_keep += "SSH_AUTH_SOCK"' >> /etc/sudoers

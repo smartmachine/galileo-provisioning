@@ -468,5 +468,5 @@ xserver-xorg xserver-xorg/config/monitor/mode-list \
 # directly, or use the apt-install and in-target commands to easily install
 # packages and run commands in the target system.
 d-i preseed/late_command string \
-    wget -O /target/var/tmp/post_provision.sh @PRESEED_URL@post_provision.sh ; \
-    in-target /bin/sh /var/tmp/post_provision.sh
+    wget -O /target/var/tmp/post_preseed.sh @PRESEED_URL@post_preseed.sh ; \
+    in-target /bin/sh /var/tmp/post_preseed.sh

@@ -1,5 +1,8 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
+#
+
+BOXFILE = File.expand_path File.dirname(__FILE__) + '/dist/galileo.box';
 
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
@@ -12,7 +15,7 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "http://localhost/~conchr/galileo.box"
+  config.vm.box = "file://#{BOXFILE}"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
