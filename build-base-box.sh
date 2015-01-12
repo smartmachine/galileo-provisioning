@@ -40,6 +40,7 @@ function sanity_check ()
     check_binary VBoxManage VirtualBox
     check_binary vagrant Vagrant
     check_binary wget wget
+    check_binary ruby ruby
     check_config_file
 }
 
